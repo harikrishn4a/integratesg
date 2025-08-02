@@ -314,7 +314,7 @@ function App() {
                     "Fully customized solution",
                     "Multiple integrations",
                     "Advanced analytics",
-                    "Dedicated project manager",
+                    "Hands-on consultant support",
                     "6 months support",
                     "On-site training"
                   ]
@@ -391,7 +391,7 @@ function App() {
                     Singapore-Based Freelance Consultant
                   </h3>
                   <p className="text-lg text-gray-700 leading-relaxed mb-6">
-                    I'm a Singapore-based computer scientist and freelancer specializing in AI automation solutions for local businesses. 
+                    I'm a Singapore-based software developer and freelancer specializing in AI automation solutions for local businesses. 
                     With expertise in machine learning and automation tools and platforms, I help SMEs streamline their operations without 
                     the complexity of traditional software development.
                   </p>
