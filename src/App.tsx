@@ -91,6 +91,7 @@ function App() {
               
               <a 
                 href={whatsappUrl}
+                onClick={() => gtag_report_conversion(whatsappUrl)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-transparent border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-blue-900 font-semibold py-4 px-8 rounded-lg transition-all duration-300 flex items-center gap-2"
