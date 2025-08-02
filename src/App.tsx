@@ -559,12 +559,11 @@ function App() {
         <div className="container mx-auto px-6">
           <div className="text-center">
             <p className="text-sm mb-4">
-              © 2025 AI Automation Solutions Singapore. All rights reserved.
+              © 2025 IntegrateSG Automation. All rights reserved.
             </p>
             <div className="text-xs space-y-1">
               <p>
-                <strong>Sources:</strong> SME statistics from Salesforce's SMB Trends Report (itbrief.asia), 
-                Customer service automation data from AIMultiple Research (research.aimultiple.com)
+                <strong>Sources:</strong> Sources: Salesforce SMB Trends (itbrief.asia), AIMultiple Research (research.aimultiple.com)
               </p>
             </div>
           </div>
