@@ -46,15 +46,12 @@ function App() {
   const whatsappUrl = `https://wa.me/6591493160?text=Hi! I'm interested in learning more about AI automation for my business.`;
 
   // WhatsApp conversion handler
-  const handleWhatsAppClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleWhatsAppClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
     e.preventDefault();
-  
     const redirectURL = 'https://wa.me/6591493160';
-  
     const callback = () => {
       window.location.href = redirectURL;
     };
-  
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'conversion', {
         send_to: 'AW-17388563894/tOFmCNLDsv4aELbbweNA',
@@ -62,11 +59,8 @@ function App() {
         currency: 'SGD',
         event_callback: callback,
       });
-  
-      // fallback redirect in case gtag doesn't respond
       setTimeout(callback, 1500);
     } else {
-      // fallback if gtag isn't defined
       callback();
     }
   };
@@ -76,23 +70,35 @@ function App() {
     emailjs.init("YOUR_PUBLIC_KEY"); // You'll need to replace this with your actual EmailJS public key
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const action = form.action;
 
     const callback = () => {
-      e.currentTarget.submit(); // Submits to Formspree after tracking
+      window.location.href = '/form-thankyou';
     };
 
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'conversion', {
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'conversion', {
         send_to: 'AW-17388563894/gtsLCNXDsv4aELbbweNA',
         value: 1.0,
         currency: 'SGD',
         event_callback: callback,
       });
+      setTimeout(callback, 1500);
     } else {
-      callback(); // Fallback if gtag isn't loaded
+      callback();
     }
+
+    fetch(action, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Accept: 'application/json',
+      },
+    });
   };
 
   return (
@@ -141,17 +147,14 @@ function App() {
                 Get Free Consultation
               </button>
 
-              <a
-                href="#"
-                onClick={e => {
-                  e.preventDefault();
-                  handleWhatsAppClick();
-                }}
+              <button
+                onClick={handleWhatsAppClick}
                 className="bg-transparent border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-blue-900 font-semibold py-4 px-8 rounded-lg transition-all duration-300 flex items-center gap-2"
+                type="button"
               >
                 <MessageCircle className="h-5 w-5" />
                 WhatsApp us
-              </a>
+              </button>
             </div>
           </div>
         </div>
@@ -586,10 +589,7 @@ function App() {
                       <div className="font-medium">WhatsApp</div>
                       <a
                         href="https://api.whatsapp.com/send?phone=6591493160&text=Hi%21+I%27m+interested+in+learning+more+about+AI+automation+for+my+business."
-                        onClick={e => {
-                          e.preventDefault();
-                          handleWhatsAppClick();
-                        }}
+                        onClick={handleWhatsAppClick}
                         className="text-green-400 hover:text-green-300 transition-colors"
                       >
                         +65 9149 3160
