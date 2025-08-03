@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 
 
 declare global {
   interface Window {
     gtag: (...args: any[]) => void;
+    gtag_formspree_conversion?: () => void;
   }
 }
-import emailjs from '@emailjs/browser';
 import { 
   Phone, 
   MessageCircle, 
@@ -20,30 +20,17 @@ import {
   Star,
   Check,
   User,
-  Mail,
-  Send,
   MapPin,
-  Sparkles,
-
+  Sparkles
 } from 'lucide-react';
 
 function App() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    service: '',
-    message: ''
-  });
+  const [formStatus, setFormStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const whatsappUrl = `https://wa.me/6591493160?text=Hi! I'm interested in learning more about AI automation for my business.`;
+  // Initialize EmailJS
+  useEffect(() => {
+    // emailjs.init("YOUR_PUBLIC_KEY"); // You'll need to replace this with your actual EmailJS public key
+  }, []);
 
   // WhatsApp conversion handler
   const handleWhatsAppClick = (e: React.MouseEvent<HTMLButtonElement | HTMLAnchorElement>) => {
@@ -65,40 +52,33 @@ function App() {
     }
   };
 
-  // Initialize EmailJS
-  useEffect(() => {
-    emailjs.init("YOUR_PUBLIC_KEY"); // You'll need to replace this with your actual EmailJS public key
-  }, []);
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  // Formspree AJAX handler
+  const handleFormspreeSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setFormStatus('idle');
     const form = e.currentTarget;
-    const formData = new FormData(form);
+    const data = new FormData(form);
     const action = form.action;
-
-    const callback = () => {
-      window.location.href = '/form-thankyou';
-    };
-
-    if (typeof window.gtag === 'function') {
-      window.gtag('event', 'conversion', {
-        send_to: 'AW-17388563894/gtsLCNXDsv4aELbbweNA',
-        value: 1.0,
-        currency: 'SGD',
-        event_callback: callback,
+    try {
+      const response = await fetch(action, {
+        method: 'POST',
+        body: data,
+        headers: {
+          Accept: 'application/json',
+        },
       });
-      setTimeout(callback, 1500);
-    } else {
-      callback();
+      if (response.ok) {
+        setFormStatus('success');
+        if (typeof window.gtag_formspree_conversion === 'function') {
+          window.gtag_formspree_conversion();
+        }
+        form.reset();
+      } else {
+        setFormStatus('error');
+      }
+    } catch {
+      setFormStatus('error');
     }
-
-    fetch(action, {
-      method: 'POST',
-      body: formData,
-      headers: {
-        Accept: 'application/json',
-      },
-    });
   };
 
   return (
@@ -502,10 +482,10 @@ function App() {
               <div>
                 <h3 className="text-2xl font-semibold mb-6">Send Us a Message</h3>
                 <form
-                  onSubmit={handleSubmit}
                   action="https://formspree.io/f/mdkdlnva"
                   method="POST"
                   className="space-y-6"
+                  onSubmit={handleFormspreeSubmit}
                 >
                   <div className="grid md:grid-cols-2 gap-4">
                     <div>
@@ -569,6 +549,12 @@ function App() {
                     Send Message
                   </button>
                 </form>
+                {formStatus === 'success' && (
+                  <div className="text-green-400 mt-4">Thank you for your inquiry! I will get back to you within 24 hours.</div>
+                )}
+                {formStatus === 'error' && (
+                  <div className="text-red-400 mt-4">Sorry, there was an error sending your message. Please try again or contact me directly at hkrishna@integratesg.co.site</div>
+                )}
               </div>
               
               <div className="lg:pl-8">
