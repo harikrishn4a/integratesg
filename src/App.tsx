@@ -46,17 +46,29 @@ function App() {
   const whatsappUrl = `https://wa.me/6591493160?text=Hi! I'm interested in learning more about AI automation for my business.`;
 
   // WhatsApp conversion handler
-  const handleWhatsAppClick = () => {
-    const callback = function () {
-      window.location.href = 'https://wa.me/6591493160';
+  const handleWhatsAppClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+  
+    const redirectURL = 'https://wa.me/6591493160';
+  
+    const callback = () => {
+      window.location.href = redirectURL;
     };
-    window.gtag('event', 'conversion', {
-      send_to: 'AW-17388563894/tOFmCNLDsv4aELbbweNA',
-      value: 1.0,
-      currency: 'SGD',
-      event_callback: callback,
-    });
-    return false;
+  
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', 'conversion', {
+        send_to: 'AW-17388563894/tOFmCNLDsv4aELbbweNA',
+        value: 1.0,
+        currency: 'SGD',
+        event_callback: callback,
+      });
+  
+      // fallback redirect in case gtag doesn't respond
+      setTimeout(callback, 1500);
+    } else {
+      // fallback if gtag isn't defined
+      callback();
+    }
   };
 
   // Initialize EmailJS
