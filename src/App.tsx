@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from 'react';
+
 declare global {
-  interface Window { gtag: any; }
+  interface Window {
+    gtag: any;
+  }
 }
 
-const gtag_report_conversion = (url?: string) => {
+const gtag_report_conversion = (url: string) => {
   const callback = () => {
-    if (typeof url !== 'undefined') {
+    if (typeof url !== "undefined") {
       window.location.href = url;
     }
   };
-
-  if (typeof window.gtag === 'function') {
-    window.gtag('event', 'conversion', {
-      send_to: 'AW-17388563894/fXuyCKy-jvcaELbbweNA',
-      value: 1.0,
-      currency: 'SGD',
-      event_callback: callback
-    });
-  }
+  window.gtag('event', 'conversion', {
+    send_to: 'AW-17388563894/fXuyCKy-jvcaELbbweNA',
+    event_callback: callback,
+  });
+  return false;
 };
 import emailjs from '@emailjs/browser';
 import { 
@@ -57,25 +56,6 @@ function App() {
   };
 
   const whatsappUrl = `https://wa.me/6591493160?text=Hi! I'm interested in learning more about AI automation for my business.`;
-
-  const handleWhatsAppClick = () => {
-    const url = "https://api.whatsapp.com/send?phone=6591493160&text=Hi%21+I%27m+interested+in+learning+more+about+AI+automation+for+my+business.";
-
-  const callback = () => {
-    window.location.href = url;
-  };
-
-  if (typeof window.gtag !== "undefined") {
-    window.gtag('event', 'conversion', {
-      send_to: 'AW-17388563894/fXuyCKy-jvcaELbbweNA',
-      event_callback: callback
-    });
-  } else {
-    callback(); // fallback if gtag isn't loaded
-  }
-
-  return false; // prevent immediate navigation
-};
 
   // Initialize EmailJS
   useEffect(() => {
@@ -134,14 +114,17 @@ function App() {
                 Get Free Consultation
               </button>
 
-              <button
-                onClick={handleWhatsAppClick}
+              <a
+                href="https://api.whatsapp.com/send?phone=6591493160&text=Hi%21+I%27m+interested+in+learning+more+about+AI+automation+for+my+business."
+                onClick={(e) => {
+                  e.preventDefault();
+                  gtag_report_conversion("https://api.whatsapp.com/send?phone=6591493160&text=Hi%21+I%27m+interested+in+learning+more+about+AI+automation+for+my+business.");
+                }}
                 className="bg-transparent border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-blue-900 font-semibold py-4 px-8 rounded-lg transition-all duration-300 flex items-center gap-2"
               >
                 <MessageCircle className="h-5 w-5" />
-              <button onClick={handleWhatsAppClick}>
-                WhatsApp: +65 9149 3160
-              </button>
+                Chat on WhatsApp
+              </a>
             </div>
           </div>
         </div>
@@ -574,10 +557,12 @@ function App() {
                     <MessageCircle className="h-6 w-6 text-green-400" />
                     <div>
                       <div className="font-medium">WhatsApp</div>
-                      <a 
-                        href={whatsappUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
+                      <a
+                        href="https://api.whatsapp.com/send?phone=6591493160&text=Hi%21+I%27m+interested+in+learning+more+about+AI+automation+for+my+business."
+                        onClick={(e) => {
+                          e.preventDefault();
+                          gtag_report_conversion("https://api.whatsapp.com/send?phone=6591493160&text=Hi%21+I%27m+interested+in+learning+more+about+AI+automation+for+my+business.");
+                        }}
                         className="text-green-400 hover:text-green-300 transition-colors"
                       >
                         +65 9149 3160
