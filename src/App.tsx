@@ -1,4 +1,24 @@
 import React, { useState, useEffect } from 'react';
+declare global {
+  interface Window { gtag: any; }
+}
+
+const gtag_report_conversion = (url?: string) => {
+  const callback = () => {
+    if (typeof url !== 'undefined') {
+      window.location.href = url;
+    }
+  };
+
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', 'conversion', {
+      send_to: 'AW-17388563894/fXuyCKy-jvcaELbbweNA',
+      value: 1.0,
+      currency: 'SGD',
+      event_callback: callback
+    });
+  }
+};
 import emailjs from '@emailjs/browser';
 import { 
   Phone, 
