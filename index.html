@@ -8,12 +8,47 @@
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17388563894"></script>
     <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'AW-17388563894');
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'AW-17388563894');
     </script>
+
+<!-- Event snippet for WhatsApp conversion -->
+<script>
+  function gtag_whatsapp_conversion(url) {
+    const callback = function () {
+      if (typeof url !== 'undefined') {
+        window.location = url;
+      }
+    };
+    gtag('event', 'conversion', {
+      'send_to': 'AW-17388563894/tOFmCNLDsv4aELbbweNA',
+      'value': 1.0,
+      'currency': 'SGD',
+      'event_callback': callback
+    });
+    return false;
+  }
+</script>
+
+<!-- Event snippet for Formspree conversion -->
+<script>
+  function gtag_formspree_conversion(url) {
+    const callback = function () {
+      if (typeof url !== 'undefined') {
+        window.location = url;
+      }
+    };
+    gtag('event', 'conversion', {
+      'send_to': 'AW-17388563894/gtsLCNXDsv4aELbbweNA',
+      'value': 1.0,
+      'currency': 'SGD',
+      'event_callback': callback
+    });
+    return false;
+  }
+</script>
   </head>
   <body>
     <div id="root"></div>
