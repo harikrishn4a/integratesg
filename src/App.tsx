@@ -43,6 +43,12 @@ function App() {
     emailjs.init("YOUR_PUBLIC_KEY"); // You'll need to replace this with your actual EmailJS public key
   }, []);
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    gtag_report_conversion();
+    e.currentTarget.submit();
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -450,6 +456,7 @@ function App() {
               <div>
                 <h3 className="text-2xl font-semibold mb-6">Send Us a Message</h3>
                 <form
+                  onSubmit={handleSubmit}
                   action="https://formspree.io/f/mdkdlnva"
                   method="POST"
                   className="space-y-6"
