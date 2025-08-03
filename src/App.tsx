@@ -58,6 +58,25 @@ function App() {
 
   const whatsappUrl = `https://wa.me/6591493160?text=Hi! I'm interested in learning more about AI automation for my business.`;
 
+  const handleWhatsAppClick = () => {
+    const callback = function () {
+      window.location.href = "https://api.whatsapp.com/send/?phone=6591493160&text=Hi%21+I%27m+interested+in+learning+more+about+AI+automation+for+my+business.";
+    };
+
+    if (typeof gtag !== "undefined") {
+      gtag("event", "conversion", {
+        send_to: "AW-17388563894/fXuyCKy-jvcaELbbweNA",
+        value: 1.0,
+        currency: "SGD",
+        event_callback: callback,
+      });
+    } else {
+      callback();
+    }
+
+    return false;
+  };
+
   // Initialize EmailJS
   useEffect(() => {
     emailjs.init("YOUR_PUBLIC_KEY"); // You'll need to replace this with your actual EmailJS public key
@@ -114,21 +133,14 @@ function App() {
                 <Phone className="h-5 w-5" />
                 Get Free Consultation
               </button>
-              
-              <a 
-                href={whatsappUrl}
-                onClick={(e) => {
-                  e.preventDefault();
-                  gtag_report_conversion(whatsappUrl);
-                  return false;
-                }}
-                target="_blank"
-                rel="noopener noreferrer"
+
+              <button
+                onClick={handleWhatsAppClick}
                 className="bg-transparent border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-blue-900 font-semibold py-4 px-8 rounded-lg transition-all duration-300 flex items-center gap-2"
               >
                 <MessageCircle className="h-5 w-5" />
                 WhatsApp: +65 9149 3160
-              </a>
+              </button>
             </div>
           </div>
         </div>
