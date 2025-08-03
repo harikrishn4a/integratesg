@@ -59,23 +59,23 @@ function App() {
   const whatsappUrl = `https://wa.me/6591493160?text=Hi! I'm interested in learning more about AI automation for my business.`;
 
   const handleWhatsAppClick = () => {
-    const callback = function () {
-      window.location.href = "https://api.whatsapp.com/send/?phone=6591493160&text=Hi%21+I%27m+interested+in+learning+more+about+AI+automation+for+my+business.";
-    };
+    const url = "https://api.whatsapp.com/send?phone=6591493160&text=Hi%21+I%27m+interested+in+learning+more+about+AI+automation+for+my+business.";
 
-    if (typeof gtag !== "undefined") {
-      gtag("event", "conversion", {
-        send_to: "AW-17388563894/fXuyCKy-jvcaELbbweNA",
-        value: 1.0,
-        currency: "SGD",
-        event_callback: callback,
-      });
-    } else {
-      callback();
-    }
-
-    return false;
+  const callback = () => {
+    window.location.href = url;
   };
+
+  if (typeof window.gtag !== "undefined") {
+    window.gtag('event', 'conversion', {
+      send_to: 'AW-17388563894/fXuyCKy-jvcaELbbweNA',
+      event_callback: callback
+    });
+  } else {
+    callback(); // fallback if gtag isn't loaded
+  }
+
+  return false; // prevent immediate navigation
+};
 
   // Initialize EmailJS
   useEffect(() => {
@@ -139,6 +139,7 @@ function App() {
                 className="bg-transparent border-2 border-green-400 text-green-400 hover:bg-green-400 hover:text-blue-900 font-semibold py-4 px-8 rounded-lg transition-all duration-300 flex items-center gap-2"
               >
                 <MessageCircle className="h-5 w-5" />
+              <button onClick={handleWhatsAppClick}>
                 WhatsApp: +65 9149 3160
               </button>
             </div>
