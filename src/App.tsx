@@ -64,20 +64,23 @@ function App() {
     emailjs.init("YOUR_PUBLIC_KEY"); // You'll need to replace this with your actual EmailJS public key
   }, []);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const callback = () => {
-      e.currentTarget.submit(); // Submits the form to Formspree
+      e.currentTarget.submit(); // Submits to Formspree after tracking
     };
 
-    window.gtag('event', 'conversion', {
-      send_to: 'AW-17388563894/gtsLCNXDsv4aELbbweNA',
-      value: 1.0,
-      currency: 'SGD',
-      event_callback: callback,
-    });
-
-    return false;
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'conversion', {
+        send_to: 'AW-17388563894/gtsLCNXDsv4aELbbweNA',
+        value: 1.0,
+        currency: 'SGD',
+        event_callback: callback,
+      });
+    } else {
+      callback(); // Fallback if gtag isn't loaded
+    }
   };
 
   return (
